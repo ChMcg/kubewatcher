@@ -1,0 +1,4 @@
+services:
+  kube-api:
+    audit_log:
+      enabled: true
