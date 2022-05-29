@@ -15,5 +15,14 @@ networking:
 apiServer:
   timeoutForControlPlane: 10m0s
   extraArgs:
-    audit-log-path: /var/log/kubernetes/apiserver/audit.log
-    audit-policy-file: /etc/kubernetes/audit-policies/policy.yaml
+    audit-log-path: "/var/log/kubernetes/apiserver/audit.log"
+    audit-policy-file: "/etc/kubernetes/audit-policies/policy.yaml"
+  extraVolumes:
+  - name: "audit-policy"
+    hostPath: "/etc/kubernetes/audit-policies/"
+    mountPath: "/etc/kubernetes/audit-policies/"
+    readOnly: false
+  - name: "audit-log"
+    hostPath: "/var/log/kubernetes/apiserver/"
+    mountPath: "/var/log/kubernetes/apiserver/"
+    readOnly: false
