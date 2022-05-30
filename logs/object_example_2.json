@@ -1,0 +1,33 @@
+{
+    "kind": "Event",
+    "apiVersion": "audit.k8s.io/v1",
+    "level": "RequestResponse",
+    "auditID": "f94871b8-70e7-4fcb-9280-6058000102e0",
+    "stage": "ResponseComplete",
+    "requestURI": "/api/v1/pods?allowWatchBookmarks=true\u0026fieldSelector=status.phase%21%3DSucceeded%2Cstatus.phase%21%3DFailed\u0026resourceVersion=4011\u0026timeout=5m4s\u0026timeoutSeconds=304\u0026watch=true",
+    "verb": "watch",
+    "user": {
+        "username": "system:kube-scheduler",
+        "groups": [
+            "system:authenticated"
+        ]
+    },
+    "sourceIPs": [
+        "45.85.117.217"
+    ],
+    "userAgent": "kube-scheduler/v1.24.1 (linux/amd64) kubernetes/3ddd0f4/scheduler",
+    "objectRef": {
+        "resource": "pods",
+        "apiVersion": "v1"
+    },
+    "responseStatus": {
+        "metadata": {},
+        "code": 200
+    },
+    "requestReceivedTimestamp": "2022-05-29T20:01:19.534315Z",
+    "stageTimestamp": "2022-05-29T20:06:23.538559Z",
+    "annotations": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": "RBAC: allowed by ClusterRoleBinding \"system:kube-scheduler\" of ClusterRole \"system:kube-scheduler\" to User \"system:kube-scheduler\""
+    }
+}
