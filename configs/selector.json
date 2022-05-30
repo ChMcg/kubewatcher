@@ -1,0 +1,25 @@
+{
+    "Critical": {
+        "verb": {
+            "type": "set",
+            "data": [
+                "attach",
+                "delete",
+                "drain",
+                "exec",
+                "expose",
+                "run"
+            ]
+        }
+    },
+    "Warning": {
+        "level": {
+            "type": "regexp",
+            "data": "(?!Metadata)"
+        },
+        "responseStatus.code": {
+            "type": "regexp",
+            "data": "[^2].*"
+        }
+    }
+}
