@@ -7,7 +7,7 @@ from typing import Iterator
 
 # log_filename = 'logs/audit-test.log'
 log_filename = '/var/log/kubernetes/apiserver/audit.log'
-export_path = os.getenv("EXPORT_PATH") or "http://analyzer"
+export_path = os.getenv("EXPORT_PATH") or "http://analyzer/receiver/audit"
 
 
 def follow(file, sleep_sec=0.1) -> Iterator[str]:
