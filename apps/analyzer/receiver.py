@@ -13,9 +13,8 @@ router = APIRouter(
 db = DB()
 
 @router.put("/audit")
-def receive_audit(data: dict):
+def receive_audit(data: dict) -> dict:
     analyzed_object = Analyzer.analyze(data)
-
     # store result in database 
     with db.get_cursor() as cursor:
         cursor.execute(
@@ -33,4 +32,8 @@ def receive_audit(data: dict):
             )
         print(f"Metadata for AO {inserted_id} inserted")
         db.connection.commit()
+    return {
+        'severity': analyzed_object.severity, 
+        'score': analyzed_object.severity_score
+    }
 

@@ -16,7 +16,9 @@
         "level": {
             "type": "regexp",
             "data": "(?!Metadata)"
-        },
+        }
+    },
+    "Warning:80": {
         "responseStatus.code": {
             "type": "regexp",
             "data": "[^2].*"

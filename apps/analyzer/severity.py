@@ -5,21 +5,23 @@ from enum_helper import inc
 
 
 class SeverityLevels(IntEnum):
-    critical    = 1
-    warning     = 2
-    info        = 3
-    metadata    = 4
-    not_defined = 1000
+    critical    = 4
+    warning     = 3
+    info        = 2
+    metadata    = 1
+    not_defined = 0
 
 
 class Severity:
     level: int
     name: str
     score: int
+    fullname: str
 
     def __init__(self, level: int, name: str, score: int) -> None:
         self.level = level
-        self.name = name
+        self.fullname = name if ':' in name else f"{name}:{level}"
+        self.name = name.split(':')[0]
         self.score = score
 
 
@@ -59,8 +61,8 @@ def all_severeties() -> list[Severity]:
 
 
 class SeverityHelper:
-    configured = dict([ (x.level, x) for x in all_severeties() ])
-    severity_by_names = dict([ (x.name, x) for x in all_severeties() ])
+    configured = dict([ (x.score, x) for x in all_severeties() ])
+    severity_by_names = dict([ (x.fullname, x) for x in all_severeties() ])
 
     @staticmethod
     def get_severity_by_name(severity_name: str) -> Severity:
@@ -76,20 +78,27 @@ class SeverityHelper:
 
     @staticmethod
     def get_severity_order() -> list[int]:
-        levels = sorted(SeverityHelper.configured.keys())
+        levels = sorted(SeverityHelper.configured.keys())[::-1]
         return levels
 
     @staticmethod
     def resolve_severity_name(name: str) -> str:
         for severity in all_severeties():
             if severity.name.lower() == name.lower():
-                return severity.name
+                return severity.fullname
         raise SeverityNotConfiguredExceprion()
         
     @staticmethod
     def configure_new_severity(name: str) -> Severity:
-        new_severity_level = inc(SeverityHelper, SeverityLevels.metadata)
-        new_severity = Severity(new_severity_level, name)
-        SeverityHelper.configured[new_severity_level] = new_severity
+        new_severity_name = name
+        score: int
+        if ':' in name:
+            a, b = name.split(':')
+            new_severity_name, score = a, int(b)
+        else:
+            score = inc(SeverityHelper, SeverityLevels.critical)
+            
+        new_severity = Severity(score, new_severity_name, score)
+        SeverityHelper.configured[score] = new_severity
         SeverityHelper.severity_by_names[name] = new_severity
         return new_severity

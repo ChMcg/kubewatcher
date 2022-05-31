@@ -95,15 +95,15 @@ class Selector:
                 normalized_name = SeverityHelper.resolve_severity_name(name)
             except SeverityNotConfiguredExceprion:
                 new_severity = SeverityHelper.configure_new_severity(name)
-                normalized_name = new_severity.name
+                normalized_name = new_severity.fullname
             severity = SeverityHelper.get_severity_by_name(normalized_name)
             self.sub_selectors[normalized_name] = SubSelector(severity, value)
 
     def get_severity(self, audit_object: dict) -> tuple[str, int]:
         for level in SeverityHelper.get_severity_order():
             severity = SeverityHelper.get_severity_by_level(level)
-            if severity.name in self.sub_selectors:
-                sub_selector = self.sub_selectors[severity.name]
+            if severity.fullname in self.sub_selectors:
+                sub_selector = self.sub_selectors[severity.fullname]
                 if sub_selector.match(audit_object):
                     return sub_selector.severity.name, sub_selector.severity.score
         return NotDefinedSeverity().name, NotDefinedSeverity().score
