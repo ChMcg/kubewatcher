@@ -1,8 +1,6 @@
 apiVersion: audit.k8s.io/v1
-# where it was /etc/kubernetes/audit-policies/policy.yaml
 kind: Policy
 rules:
-# do not log requests to the following 
 - level: None
   nonResourceURLs:
   - "/healthz*"
@@ -11,7 +9,6 @@ rules:
   - "/swagger*"
   - "/version"
 
-# limit level to Metadata so token is not included in the spec/status
 - level: Metadata
   omitStages:
   - RequestReceived
@@ -20,7 +17,6 @@ rules:
     resources:
     - tokenreviews
 
-# extended audit of auth delegation
 - level: RequestResponse
   omitStages:
   - RequestReceived
@@ -29,16 +25,13 @@ rules:
     resources:
     - subjectaccessreviews
 
-# log changes to pods at RequestResponse level
 - level: RequestResponse
   omitStages:
   - RequestReceived
   resources:
-  - group: "" # core API group; add third-party API services and your API services if needed
     resources: ["pods"]
     verbs: ["create", "patch", "update", "delete"]
 
-# log everything else at Metadata level
 - level: Metadata
   omitStages:
   - RequestReceived
