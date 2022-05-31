@@ -5,8 +5,12 @@ metadata:
   labels:
     app: postgres
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-   - port: 5432
+    - name: 'postgres-port'
+      port: 5432
+      targetPort: 5432
+  externalIPs:
+    - '45.85.117.217'
   selector:
    app: postgres
