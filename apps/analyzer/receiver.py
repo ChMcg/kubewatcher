@@ -2,7 +2,6 @@ from fastapi import APIRouter
 from database import DB
 
 from analyzer import Analyzer
-from analyzed_object import AnalyzedObject
 
 router = APIRouter(
         prefix='/receiver',
@@ -24,13 +23,16 @@ def receive_audit(data: dict) -> dict:
                 f" returning analyzed_data_id"
             )
         inserted_id = cursor.fetchone()[0]
-        print(f"AnalyzedObject with id {inserted_id} inserted")
+        if 'auditID' in data:
+            audit_id = data['auditID']
+            print(f"AnalyzedObject with id {inserted_id} and auditID '{audit_id}' inserted")
+        else:
+            print(f"AnalyzedObject with id {inserted_id} inserted")
         cursor.execute(
                 f"insert into analyzed_metadata"
                 f" (analyzed_data_id, severity, score)"
                 f" values ('{inserted_id}', '{analyzed_object.severity}', '{analyzed_object.severity_score}')"
             )
-        print(f"Metadata for AO {inserted_id} inserted")
         db.connection.commit()
     return {
         'severity': analyzed_object.severity, 
