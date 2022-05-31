@@ -1,0 +1,43 @@
+{
+    "kind": "Event",
+    "apiVersion": "audit.k8s.io/v1",
+    "level": "Metadata",
+    "auditID": "756d9c64-e32a-4d84-8c2b-2724fe985961",
+    "stage": "ResponseComplete",
+    "requestURI": "/api/v1/namespaces/default/events/inelos-swift-sf314-54g.16f43198f0c68306",
+    "verb": "patch",
+    "user": {
+        "username": "system:node:inelos-swift-sf314-54g",
+        "groups": [
+            "system:nodes",
+            "system:authenticated"
+        ]
+    },
+    "sourceIPs": [
+        "176.53.193.26"
+    ],
+    "userAgent": "kubelet/v1.24.1 (linux/amd64) kubernetes/3ddd0f4",
+    "objectRef": {
+        "resource": "events",
+        "namespace": "default",
+        "name": "inelos-swift-sf314-54g.16f43198f0c68306",
+        "apiVersion": "v1"
+    },
+    "responseStatus": {
+        "metadata": {},
+        "status": "Failure",
+        "message": "events \"inelos-swift-sf314-54g.16f43198f0c68306\" not found",
+        "reason": "NotFound",
+        "details": {
+            "name": "inelos-swift-sf314-54g.16f43198f0c68306",
+            "kind": "events"
+        },
+        "code": 404
+    },
+    "requestReceivedTimestamp": "2022-05-31T18:01:28.967438Z",
+    "stageTimestamp": "2022-05-31T18:01:28.997610Z",
+    "annotations": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": ""
+    }
+}
