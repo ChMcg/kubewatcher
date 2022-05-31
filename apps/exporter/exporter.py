@@ -7,7 +7,7 @@ from typing import Iterator
 
 # log_filename = 'logs/audit-test.log'
 log_filename = '/var/log/kubernetes/apiserver/audit.log'
-export_path = os.getenv("EXPORT_PATH") or "http://analyzer/receiver/audit"
+export_api_path = os.getenv("EXPORT_PATH") or "http://analyzer/receiver/audit"
 
 
 def follow(file, sleep_sec=0.1) -> Iterator[str]:
@@ -29,13 +29,24 @@ def parse_log_entry(entry: str) -> dict:
     return json.loads(entry.strip())
 
 def report_log_entry(entry: dict):
-    requests.put(export_path, json.dumps(entry, ensure_ascii=False))
+    requests.put(
+            export_api_path, 
+            data=json.dumps(entry, ensure_ascii=False)
+        )
 
 
 def main():
-    with open(log_filename, 'r') as file:
-        for line in follow(file):
-            print(line, end='')            
+    idle = True
+    while idle:
+        try:
+            with open(log_filename, 'r') as file:
+                for line in follow(file):
+                    print(line, end='')
+                    parsed = parse_log_entry(line)
+                    report_log_entry(parsed)
+        except Exception as e:
+            print(f"Exception occured: {e}")
+            continue
 
 
 if __name__=="__main__":
