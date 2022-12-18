@@ -7,11 +7,11 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o 
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get install docker.io -y
-systemctl enable docker.service
-systemctl start docker.service
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
 
-echo 1 > /proc/sys/net/ipv4/ip_forward
-lsmod | grep br_netfilter
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+sudo lsmod | grep br_netfilter
 sudo modprobe br_netfilter
 
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
