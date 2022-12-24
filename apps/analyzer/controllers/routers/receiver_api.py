@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from database import DB
 
-from analyzer import Analyzer
+from controllers.database import DB
+from controllers.analyzer import Analyzer
 
 router = APIRouter(
         prefix='/receiver',
@@ -10,6 +10,7 @@ router = APIRouter(
     )
 
 db = DB()
+
 
 @router.put("/audit")
 def receive_audit(data: dict) -> dict:
@@ -38,4 +39,3 @@ def receive_audit(data: dict) -> dict:
         'severity': analyzed_object.severity, 
         'score': analyzed_object.severity_score
     }
-

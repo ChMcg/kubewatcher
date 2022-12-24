@@ -2,7 +2,7 @@ import psycopg2
 
 from psycopg2.extensions import connection as pg_connection
 from psycopg2.extensions import cursor as pg_cursor
-from settings import DBConnection, database_schema_file_path
+from settings.settings import DBConnection, database_schema_file_path
 
 
 class DB:
@@ -25,13 +25,13 @@ class DB:
         data = self.cursor.fetchone()
         # self.cursor.fetchall()
         return data
-    
+
     def get_cursor(self) -> pg_cursor:
         return self.connection.cursor()
 
     def fetch_one(self) -> tuple:
         return self.cursor.fetchone()
-    
+
     def commit(self):
         self.connection.commit()
 
@@ -48,12 +48,8 @@ class DB:
                 if len(ret) == 0 or ret[0] != table_name:
                     return False
         return True
-    
+
     def create_default_schema(self):
         with self.connection.cursor() as cursor:
             cursor.execute(open(database_schema_file_path, 'r').read())
             self.connection.commit()
-        
-
-    
-

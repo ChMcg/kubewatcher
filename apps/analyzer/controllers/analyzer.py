@@ -1,15 +1,13 @@
-import json
-
-from database import DB
-from selector import Selector
-from settings import selector_file
-from analyzed_object import AnalyzedObject
+from controllers.database import DB
+from models.analyzed_object import AnalyzedObject
+from models.selector import Selector
+from settings.settings import selector_file
 
 db = DB()
 selector = Selector(selector_file)
 
+
 class Analyzer:
-    pass
 
     @staticmethod
     def analyze(data: dict):

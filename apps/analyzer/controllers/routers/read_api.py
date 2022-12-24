@@ -1,6 +1,6 @@
 import json
 from fastapi import APIRouter
-from database import DB
+from controllers.database import DB
 
 router = APIRouter(
         prefix='/read',
@@ -9,6 +9,7 @@ router = APIRouter(
     )
 
 db = DB()
+
 
 @router.get("/get_data_by_severity")
 def get_data_by_severity(severity: str) -> list[dict]:
@@ -52,4 +53,3 @@ def get_data_by_score_level(treshold: int) -> list[dict]:
             _, _, fetched_object = fetched_row
             data.append(json.loads(fetched_object))
     return data
-

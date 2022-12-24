@@ -5,13 +5,10 @@ import fnmatch
 import re
 
 from typing import Union
-from severity import Severity, SeverityHelper, NotDefinedSeverity
-from exceptions import SelectorInnerMatchFailedException, \
-        SubSelectorPathMissedException, \
-        SeverityNotConfiguredExceprion
-
-
-
+from models.severity import Severity, SeverityHelper, NotDefinedSeverity
+from misc.exceptions import SelectorInnerMatchFailedException, \
+    SubSelectorPathMissedException, \
+    SeverityNotConfiguredExceprion
 
 
 class SubSelector:
@@ -32,7 +29,7 @@ class SubSelector:
                         return True
                 except SelectorInnerMatchFailedException as e:
                     print(f"Error: {e} in selector_inner for path '{path}'")
-            except SubSelectorPathMissedException as e:
+            except SubSelectorPathMissedException:
                 # Everything is fine, just data object doesn't have configured path
                 continue
         return False
@@ -60,7 +57,7 @@ class SubSelector:
         else:
             print(f"Error: unknown selector_inner: '{selector_inner}'")
             return False
-    
+
     def match_wildcard(self, data: str, selector_inner: str) -> bool:
         return fnmatch.fnmatch(data, selector_inner)
 
@@ -74,7 +71,7 @@ class SubSelector:
             return False
         target_set = set(target_set_list)
         return data in target_set
-    
+
     def match_by_regexp(self, data: str, selector_inner: dict) -> bool:
         if 'data' not in selector_inner.keys():
             print(f"Error: missing data in selector_inner '{selector_inner}'")
@@ -107,10 +104,9 @@ class Selector:
                 if sub_selector.match(audit_object):
                     return sub_selector.severity.name, sub_selector.severity.score
         return NotDefinedSeverity().name, NotDefinedSeverity().score
-        
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     object_example = json.loads(open("logs/object_example_1.json", 'r').read())
     selector = Selector("configs/selector.json")
     severity = selector.get_severity(object_example)

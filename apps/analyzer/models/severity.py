@@ -1,7 +1,6 @@
 from enum import IntEnum
-from exceptions import SeverityNotConfiguredExceprion
-from enum_helper import inc
-
+from misc.exceptions import SeverityNotConfiguredExceprion
+from misc.enum_helper import inc
 
 
 class SeverityLevels(IntEnum):
@@ -29,7 +28,7 @@ class CriticalSeverity(Severity):
     def __init__(self) -> None:
         super().__init__(SeverityLevels.critical, "Critical", 100)
 
-        
+
 class WarningSeverity(Severity):
     def __init__(self) -> None:
         super().__init__(SeverityLevels.warning, "Warning", 75)
@@ -71,7 +70,7 @@ class SeverityHelper:
         else:
             new_severity = SeverityHelper.configure_new_severity(severity_name)
             return new_severity
-        
+
     @staticmethod
     def get_severity_by_level(level: int) -> Severity:
         return SeverityHelper.configured[level]
@@ -87,7 +86,7 @@ class SeverityHelper:
             if severity.name.lower() == name.lower():
                 return severity.fullname
         raise SeverityNotConfiguredExceprion()
-        
+
     @staticmethod
     def configure_new_severity(name: str) -> Severity:
         new_severity_name = name
@@ -97,7 +96,7 @@ class SeverityHelper:
             new_severity_name, score = a, int(b)
         else:
             score = inc(SeverityHelper, SeverityLevels.critical)
-            
+
         new_severity = Severity(score, new_severity_name, score)
         SeverityHelper.configured[score] = new_severity
         SeverityHelper.severity_by_names[name] = new_severity

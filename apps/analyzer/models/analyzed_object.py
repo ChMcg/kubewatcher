@@ -1,7 +1,6 @@
 import json
 
 
-
 class AnalyzedObject:
     original_object: dict
     severity: str
@@ -28,5 +27,3 @@ class AnalyzedObject:
     def dump_string(self) -> str:
         dumped_self = self.dump()
         return json.dumps(dumped_self, ensure_ascii=False)
-
-
