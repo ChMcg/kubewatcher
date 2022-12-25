@@ -1,4 +1,4 @@
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, DeclarativeBase
 
 
-BaseSqlModel = declarative_base()
+BaseSqlModel: DeclarativeBase = declarative_base()

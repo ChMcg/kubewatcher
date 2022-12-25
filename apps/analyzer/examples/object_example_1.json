@@ -1,0 +1,36 @@
+{
+    "kind": "Event",
+    "apiVersion": "audit.k8s.io/v1",
+    "level": "Metadata",
+    "auditID": "f049ccd1-0d37-480c-b4a8-3240951d2aff",
+    "stage": "ResponseComplete",
+    "requestURI": "/apis/apiregistration.k8s.io/v1/apiservices",
+    "verb": "create",
+    "user": {
+        "username": "system:apiserver",
+        "uid": "f2e99fc9-26c3-49b7-a44f-d9a3132e3d76",
+        "groups": [
+            "system:masters"
+        ]
+    },
+    "sourceIPs": [
+        "::1"
+    ],
+    "userAgent": "kube-apiserver/v1.24.1 (linux/amd64) kubernetes/3ddd0f4",
+    "objectRef": {
+        "resource": "apiservices",
+        "name": "v2beta2.autoscaling",
+        "apiGroup": "apiregistration.k8s.io",
+        "apiVersion": "v1"
+    },
+    "responseStatus": {
+        "metadata": {},
+        "code": 201
+    },
+    "requestReceivedTimestamp": "2022-05-29T19:10:20.159778Z",
+    "stageTimestamp": "2022-05-29T19:10:20.291131Z",
+    "annotations": {
+        "authorization.k8s.io/decision": "allow",
+        "authorization.k8s.io/reason": ""
+    }
+}
