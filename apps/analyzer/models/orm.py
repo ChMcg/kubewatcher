@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import functions
 
 from models.base_model import BaseSqlModel
+from models.analyzed_object import AnalyzedObject
 
 
 class AnalyzedData(BaseSqlModel):
@@ -20,6 +21,9 @@ class AnalyzedData(BaseSqlModel):
             nullable=False,
         )
     object_raw: Mapped[dict] = mapped_column(JSON, nullable=False)
+
+    def __init__(self, local_analyzed_object: AnalyzedObject) -> None:
+        self.object_raw = local_analyzed_object.original_object
 
 
 class AnalyzedMetadata(BaseSqlModel):
@@ -36,3 +40,8 @@ class AnalyzedMetadata(BaseSqlModel):
     severity: Mapped[str] = mapped_column(String, nullable=False)
     score: Mapped[int] = mapped_column(INT, nullable=False)
     date_created: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), server_default=functions.now())
+
+    def __init__(self, local_analyzed_object: AnalyzedObject, analyzed_data: AnalyzedData) -> None:
+        self.analyzed_data_id = analyzed_data.analyzed_data_id
+        self.severity = local_analyzed_object.severity
+        self.score = local_analyzed_object.severity_score

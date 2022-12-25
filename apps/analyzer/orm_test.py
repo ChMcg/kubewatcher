@@ -20,21 +20,20 @@ class TestDatabaseInteraction():
         postgres = Postgres()
         with postgres.session() as session:
             try:
+                # parse object example
                 with open("examples/object_example_1.json", 'r') as object_example:
                     object_example = json.load(object_example)
                 local_analyzed_obj = Analyzer.analyze(object_example)
-                data = AnalyzedData(object_raw=local_analyzed_obj.original_object)
+                # add parsed data to database
+                data = AnalyzedData(local_analyzed_obj)
                 session.add(data)
                 session.flush()
                 session.refresh(data)
                 print(f'data.analyzed_data_id: {data.analyzed_data_id}')
-                metadata = AnalyzedMetadata(
-                        analyzed_data_id=data.analyzed_data_id,
-                        severity=local_analyzed_obj.severity,
-                        score=local_analyzed_obj.severity_score
-                    )
+                metadata = AnalyzedMetadata(local_analyzed_obj, data)
                 session.add(metadata)
                 session.commit()
+                # and then delete created records
                 session.delete(metadata)
                 session.flush()
                 session.delete(data)
