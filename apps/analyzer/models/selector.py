@@ -5,10 +5,11 @@ import fnmatch
 import re
 
 from typing import Union
+
 from models.severity import Severity, SeverityHelper, NotDefinedSeverity
-from misc.exceptions import SelectorInnerMatchFailedException, \
-    SubSelectorPathMissedException, \
-    SeverityNotConfiguredExceprion
+from misc.exceptions import SelectorInnerMatchFailedException
+from misc.exceptions import SubSelectorPathMissedException
+from misc.exceptions import SeverityNotConfiguredExceprion
 
 
 class SubSelector:

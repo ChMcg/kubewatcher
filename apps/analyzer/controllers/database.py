@@ -2,6 +2,7 @@ import psycopg2
 
 from psycopg2.extensions import connection as pg_connection
 from psycopg2.extensions import cursor as pg_cursor
+
 from settings.settings import DBConnection, database_schema_file_path
 
 

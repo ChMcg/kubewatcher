@@ -1,5 +1,6 @@
 import json
 from fastapi import APIRouter
+
 from controllers.database import DB
 
 router = APIRouter(
