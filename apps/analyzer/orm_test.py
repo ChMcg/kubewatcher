@@ -41,6 +41,3 @@ class TestDatabaseInteraction():
             except SQLAlchemyError:
                 session.rollback()
                 raise
-
-
-
