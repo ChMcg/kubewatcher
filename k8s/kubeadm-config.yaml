@@ -7,7 +7,9 @@ nodeRegistration:
 
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
-kubernetesVersion: "v1.24.1"
+kubernetesVersion: "v1.25.4"
+# apiserver-advertise-address: "195.133.201.192"
+apiserver-advertise-address: "45.85.117.217"
 
 networking:
   podSubnet: "10.244.0.0/16"
