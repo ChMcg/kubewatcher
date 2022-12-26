@@ -4,3 +4,5 @@ __pycache__
 .env
 
 logs/audit.log
+/*.log
+logs
