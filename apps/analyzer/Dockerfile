@@ -4,8 +4,7 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
-COPY apps/analyzer/*.py /app/
-COPY apps/analyzer/schema.sql /app/
+COPY apps/analyzer/ /app/
 COPY configs/selector.json /app/
 
 ENTRYPOINT [ "uvicorn", "main:app", "--host", "0.0.0.0" ]
