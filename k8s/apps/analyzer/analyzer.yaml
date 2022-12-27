@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "analyzer-configmap"
+  labels:
+    app: "analyzer"
+data:
+  POSTGRES_HOST: "10.42.0.88"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DATABASE: "kubewatcher"
+  SELECTOR_FILE: "/app/configs/selector.json"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: analyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "analyzer"
+  template:
+    metadata:
+      labels:
+        app: "analyzer"
+    spec:
+      containers:
+        - name: 'analyzer'
+          image: 'kubewatcher/analyzer:0.7'
+          imagePullPolicy: "Never"
+          resources: 
+           limits:
+            memory: "128Mi"
+            cpu: "200m"
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: "analyzer-configmap"
+          volumeMounts:
+            - name: "anlyzer-selector-config-volume"
+              mountPath: "/app/configs/"
+          env:
+            - name: "POSTGRES_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: "postgres-main-user-creds"
+                  key: "username"
+                  optional: false
+            - name: "POSTGRES_PASS"
+              valueFrom:
+                secretKeyRef:
+                  name: "postgres-main-user-creds"
+                  key: "password"
+                  optional: false
+      volumes:
+        - name: "anlyzer-selector-config-volume"
+          configMap:
+            name: "analyzer-seclector-config"
+      nodeSelector:
+        apply_analyzer: "true"
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: analyzer
+  labels:
+    app: "analyzer"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "analyzer-port"
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: "analyzer"
